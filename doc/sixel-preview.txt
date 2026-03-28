@@ -1,0 +1,107 @@
+*sixel-preview.txt*  Preview images and PDFs as sixel graphics in Neovim
+
+Author: truashamu
+License: MIT
+Repository: https://github.com/truashamu/sixel-preview.nvim
+
+==============================================================================
+CONTENTS                                            *sixel-preview-contents*
+
+  1. Introduction .......................... |sixel-preview-intro|
+  2. Requirements .......................... |sixel-preview-requirements|
+  3. Commands .............................. |sixel-preview-commands|
+  4. PDF Navigation ........................ |sixel-preview-pdf|
+  5. Configuration ......................... |sixel-preview-config|
+  6. Health Check .......................... |sixel-preview-health|
+
+==============================================================================
+1. INTRODUCTION                                        *sixel-preview-intro*
+
+sixel-preview.nvim renders images and PDFs inline in Neovim using the Sixel
+graphics protocol. Files are displayed in a dedicated tab or directly in
+your file explorer buffer.
+
+Built for Windows Terminal 1.22+ (which added sixel support), but works on
+any sixel-capable terminal: WezTerm, foot, mlterm, etc.
+
+Existing Neovim image plugins use the Kitty Graphics Protocol, which does
+NOT work on Windows Terminal. This plugin uses Sixel — the protocol that
+Windows Terminal actually supports.
+
+Features:
+- Image preview (PNG, JPG, GIF, SVG, WebP, BMP, TIFF, ICO)
+- PDF preview with page navigation
+- File explorer auto-preview (Snacks, neo-tree, oil.nvim)
+- Dynamic terminal size detection
+- In-memory render caching with mtime invalidation
+- Clean tab switching (artifacts cleared/re-rendered)
+
+==============================================================================
+2. REQUIREMENTS                                  *sixel-preview-requirements*
+
+- Neovim >= 0.9 (0.10+ recommended)
+- Sixel-capable terminal (Windows Terminal 1.22+, WezTerm, foot, mlterm)
+- ImageMagick 7+ with sixel delegate
+- poppler-utils (for pdftoppm PDF rendering) — optional
+
+Run `:checkhealth sixel-preview` to verify.
+
+==============================================================================
+3. COMMANDS                                          *sixel-preview-commands*
+
+:SixelPreview [file]                                        *:SixelPreview*
+    Preview a file in a new tab. Defaults to the current buffer's file.
+
+:SixelPreviewToggle                                    *:SixelPreviewToggle*
+    Toggle the preview tab for the current file.
+
+:SixelPreviewClose                                      *:SixelPreviewClose*
+    Close the preview tab.
+
+:SixelPreviewPage {number}                              *:SixelPreviewPage*
+    Preview a specific page of a PDF file.
+
+:SixelClearCache                                        *:SixelClearCache*
+    Clear the in-memory render cache.
+
+==============================================================================
+4. PDF NAVIGATION                                       *sixel-preview-pdf*
+
+When previewing a PDF, these buffer-local keybindings are active:
+
+  `n` / `J`    Next page
+  `p` / `K`    Previous page
+  `q`          Close preview
+
+A page indicator notification shows your position (e.g. "Page 2 / 15").
+
+==============================================================================
+5. CONFIGURATION                                      *sixel-preview-config*
+
+Call `require("sixel-preview").setup(opts)` with a table of options.
+All options are optional — defaults are sensible for most setups.
+
+See README.md for the full options reference with examples.
+
+Key options: ~
+  `converters.image`     "magick" (default) or "chafa"
+  `converters.pdf`       "pdftoppm" (default) or "magick"
+  `auto_preview`         Auto-preview from file explorers (default: true)
+  `sixel.cell_size`      Fallback cell size { width, height } (default: {8, 16})
+  `pdf.dpi`              PDF rasterization resolution (default: 150)
+  `tab.reuse`            Reuse existing preview tab (default: true)
+
+==============================================================================
+6. HEALTH CHECK                                       *sixel-preview-health*
+
+Run `:checkhealth sixel-preview` to verify dependencies and terminal support.
+
+Checks performed:
+- Neovim version
+- Terminal sixel support (WT_SESSION detection)
+- ImageMagick availability and sixel delegate
+- pdftoppm (poppler-utils) availability
+- chafa availability (optional)
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
