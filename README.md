@@ -8,6 +8,12 @@ Built for **Windows Terminal 1.22+**, but works on any sixel-capable terminal (W
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
 
+### Image Preview
+![Image preview](assets/image_preview.png)
+
+### PDF Preview
+![PDF preview](assets/pdf_preview.png)
+
 ## Features
 
 - **Image preview** — PNG, JPG, GIF, SVG, WebP, BMP, TIFF, ICO
